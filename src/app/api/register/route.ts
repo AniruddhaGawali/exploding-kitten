@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
       name,
       email,
       hashedPassword,
+      image: Math.floor(Math.random() * 5 + 1).toString(),
     },
   });
 

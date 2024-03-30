@@ -28,7 +28,22 @@ function Navbar({}: Props) {
             )}
 
             <Avatar>
-              <AvatarImage src={session.user.image ?? ''} />
+              <AvatarImage
+                src={
+                  session.user.image
+                    ? Number.isNaN(parseInt(session.user.image))
+                      ? session.user.image
+                      : `/cat/cats-avater/${session.user.image}.png`
+                    : ''
+                }
+                className={
+                  session.user.image
+                    ? Number.isNaN(parseInt(session.user.image))
+                      ? ''
+                      : 'bg-secondary p-[4px] border  rounded-full'
+                    : ''
+                }
+              />
               <AvatarFallback>{session.user.name}</AvatarFallback>
             </Avatar>
           </>
