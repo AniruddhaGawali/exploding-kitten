@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 
 import { loginFromGoogle, logOut } from '@/actions/auth-action';
 import { useSession } from 'next-auth/react';
+import Navbar from '@/components/navbar';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -12,6 +13,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <Navbar />
       <ModeToggle />
       <Button
         onClick={() => {
