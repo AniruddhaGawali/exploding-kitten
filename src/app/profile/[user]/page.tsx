@@ -17,13 +17,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useSession } from 'next-auth/react';
+import LoadingScreen from '@/components/loading';
 
 type Props = {};
 
 function Page({}: Props) {
   const param = useParams();
   const [user, setUser] = useState<UserData>();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   async function getUserData() {
     const user: UserData | null = await getUser(param.user.toString());
@@ -37,6 +38,8 @@ function Page({}: Props) {
   }, []);
 
   if (!user) return null;
+
+  if (status === 'loading') return <LoadingScreen />;
 
   return (
     <div className="h-[90vh] flex flex-col items-start justify-start mt-20">
@@ -53,34 +56,39 @@ function Page({}: Props) {
             className="w-56 h-56 rounded-full"
             alt={user?.name + ' profile picture'}
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button>Change</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <DropdownMenuItem
-                  key={i}
-                  onClick={async () => {
-                    session
-                      ? await updateProfile(session.user.id, (i + 1).toString())
-                      : null;
+          {session?.user.id === user.id && (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button>Change</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <DropdownMenuItem
+                    key={i}
+                    onClick={async () => {
+                      session
+                        ? await updateProfile(
+                            session.user.id,
+                            (i + 1).toString()
+                          )
+                        : null;
 
-                    await getUserData();
-                  }}>
-                  <DropdownMenuLabel className="flex items-center justify-center gap-5">
-                    <Image
-                      src={`/cat/cats-avater/${i + 1}.png`}
-                      width={40}
-                      height={40}
-                      alt={`Avatar ${i + 1}`}
-                    />
-                    <span>Cat {i + 1}</span>
-                  </DropdownMenuLabel>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                      await getUserData();
+                    }}>
+                    <DropdownMenuLabel className="flex items-center justify-center gap-5">
+                      <Image
+                        src={`/cat/cats-avater/${i + 1}.png`}
+                        width={40}
+                        height={40}
+                        alt={`Avatar ${i + 1}`}
+                      />
+                      <span>Cat {i + 1}</span>
+                    </DropdownMenuLabel>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
         <h1 className="text-5xl md:text-6xl font-bold text-center sm:text-left">
           {user?.name}
