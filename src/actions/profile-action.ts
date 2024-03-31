@@ -33,3 +33,19 @@ export async function updateProfile(id: string, img: string) {
     return null;
   }
 }
+
+export async function getLeaderboard() {
+  try {
+    const users = await db.user.findMany({
+      orderBy: {
+        score: 'desc',
+      },
+      take: 10,
+    });
+
+    return users;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}

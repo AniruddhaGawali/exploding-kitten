@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Exploding Kittens',
   description: 'A simple game of Exploding Kittens',
   icons: {
-    icon: [{ url: '/favicon.ico' }],
+    icon: [{ url: './favicon.ico' }],
   },
 };
 
