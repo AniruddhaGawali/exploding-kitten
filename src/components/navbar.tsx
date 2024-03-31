@@ -35,7 +35,7 @@ function Navbar({}: Props) {
               className=" w-20 inline-block"
             />
           </h1>
-          <h1>Exploding Kitten</h1>
+          <h1 className="hidden md:block">Exploding Kitten</h1>
         </div>
       </Link>
       <div className="space-x-4 flex">
@@ -89,7 +89,7 @@ function Navbar({}: Props) {
         ) : (
           <>
             {!(path == '/play') && (
-              <Link href="/play">
+              <Link href="/play" className="hidden sm:block">
                 <Button variant={'outline'}>Play Now</Button>
               </Link>
             )}

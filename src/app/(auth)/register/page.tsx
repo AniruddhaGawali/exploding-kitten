@@ -59,7 +59,7 @@ function Page({}: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center w-full justify-center  min-h-screen">
+    <div className="flex flex-col items-center w-full justify-center  min-h-screen mt-20">
       <div className="flex flex-col items-center gap-1">
         <h1 className="text-4xl font-bold mb-0">Register</h1>
         <p className="text-base m-0">Please enter your details to register</p>

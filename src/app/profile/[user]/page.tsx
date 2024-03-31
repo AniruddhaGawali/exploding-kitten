@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 
 'use client';
@@ -39,7 +40,7 @@ function Page({}: Props) {
 
   return (
     <div className="h-[90vh] flex flex-col items-start justify-start mt-20">
-      <section className="flex items-center justify-start space-y-4 w-full bg-secondary gap-5 p-10">
+      <section className="flex flex-col sm:flex-row items-center justify-start space-y-4 w-full bg-secondary gap-5 p-10">
         <div className="flex items-center justify-center  flex-col gap-5">
           <img
             src={
@@ -81,11 +82,13 @@ function Page({}: Props) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <h1 className="text-6xl font-bold">{user?.name}</h1>
+        <h1 className="text-5xl md:text-6xl font-bold text-center sm:text-left">
+          {user?.name}
+        </h1>
       </section>
-      <section className="flex flex-col items-start justify-start space-y-4 w-full p-10">
-        <p className="text-3xl">Score: {user?.score}</p>
-        <p className="text-3xl">Total Games: {user?.totalGames}</p>
+      <section className="flex flex-col items-start justify-start space-y-4 w-full p-10 text-2xl md:text-3xl">
+        <p>Score: {user?.score}</p>
+        <p>Total Games: {user?.totalGames}</p>
       </section>
     </div>
   );

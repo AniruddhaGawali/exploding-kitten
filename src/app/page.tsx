@@ -10,19 +10,20 @@ export default async function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex min-h-screen flex-col items-start p-24 container mt-10">
-        <h1 className="text-7xl font-semibold text-left w-full">
+      <main className="flex min-h-screen flex-col items-start py-24 px-12 sm:p-24 container mt-10">
+        <h1 className="text-5xl md:text-7xl font-semibold text-left w-full">
           Welcome to
           <br />
           Exploding Kitten 😸
         </h1>
 
-        <div className="w-full flex items-start justify-start space-x-5 mt-10">
-          <Button asChild className="w-1/3 mt-5" size={'lg'}>
+        <div className="w-full flex-wrap flex items-start justify-start sm:space-x-5 mt-10">
+          <Button asChild className="w-1/3 min-w-fit mt-5" size={'lg'}>
             <Link href="/play" className="text-xl">
               Start Game
             </Link>
           </Button>
+
           <Button asChild className="mt-5" size={'lg'} variant={'outline'}>
             <Link href="#leaderboard" className="text-xl">
               Leaderboard
@@ -31,10 +32,10 @@ export default async function Home() {
         </div>
 
         <section>
-          <h3 className="text-3xl font-semibold text-left w-full mb-5 mt-20">
+          <h3 className="text-2xl sm:text-3xl font-semibold text-left w-full mb-5 mt-20">
             Rules of the game:
           </h3>
-          <ul className="text-lg font-normal text-left w-full leading-loose list-disc ml-10 space-y-2">
+          <ul className="text-base sm:text-lg font-normal text-left w-full leading-loose list-disc sm:ml-10 space-y-2">
             <li>
               4 different types of cards - Cat card 😼 - Defuse card 🙅‍♂️ -
               Shuffle card 🔀 - Exploding kitten card 💣
@@ -70,7 +71,7 @@ export default async function Home() {
               Leaderboard
             </h4>
 
-            <div className="w-2/3 rounded-lg mt-10 border min-h-[50vh]">
+            <div className="w-full sm:w-[90%] lg:w-2/3 rounded-lg mt-10 border min-h-[50vh]">
               <table className="table-auto w-full rounded-lg p-5 text-left">
                 <thead className=" bg-primary">
                   <tr>
