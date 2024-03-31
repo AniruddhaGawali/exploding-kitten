@@ -1,15 +1,19 @@
 'use client';
 
 import GameCard from '@/components/game-card';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { catCards, bombCard, defuseCard, shuffleCard } from '@/data/cards';
 import { Button } from '@/components/ui/button';
 import useGame from '@/redux/dispatch/useGame';
+import GameOverOverlay from '@/components/game-over-overlay';
+import { incrementScore, incrementGame } from '@/actions/game-action';
+import { useSession } from 'next-auth/react';
 
 type Props = {};
 
 function Page({}: Props) {
   const totalCards: Deck = [...catCards, bombCard, defuseCard, shuffleCard];
+  const { data: session } = useSession();
 
   const {
     gameState,
@@ -17,13 +21,26 @@ function Page({}: Props) {
     setCatCurrentCard,
     setDefuseCurrentCard,
     setCurrentCard,
+    resetGame,
   } = useGame();
 
-  const { cards, catCurrentCard, currentCard, defuseCurrentCard, score } =
-    gameState;
+  const {
+    cards,
+    catCurrentCard,
+    currentCard,
+    defuseCurrentCard,
+    score,
+    isGameOver,
+    isWin,
+  } = gameState;
 
   function random5Deck() {
     return totalCards.sort(() => Math.random() - 0.5).slice(0, 5);
+  }
+
+  function restart() {
+    resetGame();
+    setCards(random5Deck());
   }
 
   useEffect(() => {
@@ -31,7 +48,19 @@ function Page({}: Props) {
     setCards(shuffled5Cards);
   }, []);
 
-  console.log(gameState);
+  useEffect(() => {
+    if (isGameOver && session) {
+      setTimeout(() => {
+        incrementGame(session.user.id);
+      }, 2000);
+    }
+  }, [isGameOver]);
+
+  useEffect(() => {
+    if (session && isWin) {
+      incrementScore(session.user.id);
+    }
+  }, [isWin]);
 
   return (
     <>
@@ -49,9 +78,11 @@ function Page({}: Props) {
 
         <div className="flex gap-10 flex-col items-center justify-center md:items-start md:justify-start">
           <h2 className="text-xl md:text-2xl text-center m-auto">
-            {currentCard < 5
-              ? `Card ${currentCard + 1} of 5`
-              : 'You have reached the end of the deck'}
+            {Number.isNaN(currentCard)
+              ? 'Check the first card'
+              : currentCard < 5
+                ? `Card ${currentCard + 1} of 5`
+                : 'You have reached the end of the deck'}
           </h2>
 
           <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-5 lg:w-1/3 xl:w-2/3">
@@ -60,25 +91,35 @@ function Page({}: Props) {
           </section>
           <Button
             className="w-2/3 m-auto"
+            disabled={currentCard === 4 || score < 0}
             onClick={() => {
-              if (currentCard < 5) {
-                setCurrentCard(currentCard + 1);
-                if (cards[currentCard].type === 'cat') {
-                  setCatCurrentCard(cards[currentCard]);
-                }
-                if (cards[currentCard].type === 'defuse') {
-                  setDefuseCurrentCard(cards[currentCard]);
-                }
+              if (currentCard <= 4 || Number.isNaN(currentCard)) {
+                if (Number.isNaN(currentCard)) {
+                  if (cards[0].type === 'shuffle') {
+                    restart();
+                  } else {
+                    setCurrentCard(0);
+                    if (cards[0].type === 'cat') {
+                      setCatCurrentCard(cards[0]);
+                    }
+                    if (cards[0].type === 'defuse') {
+                      setDefuseCurrentCard(cards[0]);
+                    }
+                  }
+                } else {
+                  if (cards[currentCard].type === 'shuffle') {
+                    restart();
+                  } else {
+                    setCurrentCard(currentCard + 1);
 
-                if (cards[currentCard].type === 'shuffle') {
-                  const shuffled5Cards = random5Deck();
-                  setCards(shuffled5Cards);
-                  setCurrentCard(0);
-                  setCatCurrentCard(null);
-                  setDefuseCurrentCard(null);
+                    if (cards[currentCard].type === 'cat') {
+                      setCatCurrentCard(cards[currentCard]);
+                    }
+                    if (cards[currentCard].type === 'defuse') {
+                      setDefuseCurrentCard(cards[currentCard]);
+                    }
+                  }
                 }
-              } else {
-                setCurrentCard(10);
               }
             }}>
             Next Card
@@ -92,6 +133,8 @@ function Page({}: Props) {
           </section>
         </div>
       </div>
+
+      {isGameOver && <GameOverOverlay restart={restart} home={() => {}} />}
     </>
   );
 }

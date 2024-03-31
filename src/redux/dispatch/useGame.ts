@@ -24,6 +24,7 @@ const useGame = () => {
   const setDefuseCurrentCard = (defuseCurrentCard: Card | null) => {
     dispatch(gameActions.setDefuseCurrentCard(defuseCurrentCard));
   };
+  const resetGame = () => dispatch(gameActions.resetGame());
 
   return {
     gameState,
@@ -31,6 +32,7 @@ const useGame = () => {
     setCards,
     setCatCurrentCard,
     setDefuseCurrentCard,
+    resetGame,
   };
 };
 
