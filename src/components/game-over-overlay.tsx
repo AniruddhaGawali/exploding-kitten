@@ -1,6 +1,10 @@
+'use client';
+
 import React from 'react';
 import { Button } from './ui/button';
 import useGame from '@/redux/dispatch/useGame';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   restart: () => void;
@@ -11,6 +15,8 @@ function GameOverOverlay({ restart, home }: Props) {
   const {
     gameState: { isWin },
   } = useGame();
+
+  const { status } = useSession();
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 h-full bg-background/50 backdrop-blur-sm">
@@ -27,18 +33,27 @@ function GameOverOverlay({ restart, home }: Props) {
           </h3>
         </div>
 
-        <div className="flex items-center justify-between gap-10 w-1/3 bg-secondary-foreground/20 p-10 rounded-lg ">
+        <div className="grid grid-cols-2 items-center justify-between gap-10 w-1/3 bg-secondary-foreground/20 p-10 rounded-lg ">
           <Button
-            className="w-1/2 text-xl"
+            className="w-full text-xl"
             size={'lg'}
             onClick={() => {
               restart();
             }}>
             Restart
           </Button>
-          <Button variant={'secondary'} size={'lg'} className="w-1/2 text-xl">
-            Home
+          <Button
+            variant={'secondary'}
+            size={'lg'}
+            asChild
+            className="w-full text-xl">
+            <Link href={'/'}>Home</Link>
           </Button>
+          {status == 'unauthenticated' && (
+            <Button className="col-span-2 text-xl" asChild size={'lg'}>
+              <Link href={'/register'}>Signup to get in Leaderboard</Link>
+            </Button>
+          )}
         </div>
       </section>
     </div>
