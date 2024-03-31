@@ -1,7 +1,7 @@
 'use client';
 
 import GameCard from '@/components/game-card';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { catCards, bombCard, defuseCard, shuffleCard } from '@/data/cards';
 import { Button } from '@/components/ui/button';
 import useGame from '@/redux/dispatch/useGame';
