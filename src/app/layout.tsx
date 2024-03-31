@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/provider/theme-provider';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import NextAuthProvider from '@/provider/nextAuthProvider';
+import ReduxProvider from '@/provider/reduxProvider';
 
 const jost = Jost({ subsets: ['latin'] });
 
@@ -23,11 +24,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={jost.className}>
-        <NextAuthProvider session={session}>
-          <ThemeProvider attribute="class" defaultTheme="system">
-            {children}
-          </ThemeProvider>
-        </NextAuthProvider>
+        <ReduxProvider>
+          <NextAuthProvider session={session}>
+            <ThemeProvider attribute="class" defaultTheme="system">
+              {children}
+            </ThemeProvider>
+          </NextAuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
