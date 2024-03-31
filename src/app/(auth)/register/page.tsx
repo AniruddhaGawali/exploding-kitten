@@ -133,7 +133,7 @@ function Page({}: Props) {
             onClick={() => loginFromGithub()}
             className="space-x-4">
             <FaGithub size={20} />
-            <span>Login with Github</span>
+            <span>Register with Github</span>
           </Button>
 
           <Button
@@ -141,7 +141,7 @@ function Page({}: Props) {
             onClick={() => loginFromGoogle()}
             className="space-x-4">
             <FaGoogle size={20} />
-            <span>Login with Google</span>
+            <span>Register with Google</span>
           </Button>
 
           <p className=" text-center">
