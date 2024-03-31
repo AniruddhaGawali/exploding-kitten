@@ -70,6 +70,7 @@ export default async function Home() {
           <section className="w-full mt-20" id="leaderboard">
             <h4 className="text-5xl font-semibold text-left w-full mb-5 mt-20">
               Leaderboard
+              <span className="text-primary"> #Top10</span>
             </h4>
 
             <div className="w-full sm:w-[90%] lg:w-2/3 rounded-lg mt-10 border min-h-[50vh]">
@@ -99,7 +100,14 @@ export default async function Home() {
                         )}
                         <span>{index + 1}</span>
                       </td>
-                      <td className=" px-4 py-2 ">{user.name}</td>
+                      <td className=" px-4 py-2 ">
+                        <Button
+                          asChild
+                          variant={'link'}
+                          className="text-foreground">
+                          <Link href={'/profile/' + user.id}>{user.name}</Link>
+                        </Button>
+                      </td>
                       <td className=" px-4 py-2 ">{user.score}</td>
                     </tr>
                   ))}
