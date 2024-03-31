@@ -64,7 +64,7 @@ function Navbar({}: Props) {
               <DropdownMenuContent>
                 <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem asChild>
                   <Link href={'/profile/' + session.user.id}>View Profile</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
