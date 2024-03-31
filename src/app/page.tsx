@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { getLeaderboard } from '@/actions/profile-action';
 import Footer from '@/components/footer';
+import Image from 'next/image';
 
 export default async function Home() {
   const leaderboard = await getLeaderboard();
@@ -86,7 +87,18 @@ export default async function Home() {
                     <tr
                       key={index}
                       className={index % 2 == 0 ? 'bg-secondary' : ''}>
-                      <td className=" px-4 py-2">{index + 1}</td>
+                      <td className="px-4 py-2 space-x-2 flex items-center">
+                        {index < 5 && (
+                          <Image
+                            src={'/cat/cats-avater/' + (index + 1) + '.png'}
+                            alt={'cat-' + (index + 1)}
+                            width={20}
+                            height={20}
+                            className="inline-block"
+                          />
+                        )}
+                        <span>{index + 1}</span>
+                      </td>
                       <td className=" px-4 py-2 ">{user.name}</td>
                       <td className=" px-4 py-2 ">{user.score}</td>
                     </tr>
