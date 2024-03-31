@@ -1,5 +1,3 @@
-// This file is used to create a singleton instance of PrismaClient
-
 import { PrismaClient } from '@prisma/client';
 
 let prisma: PrismaClient;
