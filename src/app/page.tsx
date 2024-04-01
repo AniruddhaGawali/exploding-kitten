@@ -1,12 +1,35 @@
+'use client';
+
 import Navbar from '@/components/navbar';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { getLeaderboard } from '@/actions/profile-action';
 import Footer from '@/components/footer';
 import Image from 'next/image';
+import { RefreshCcw } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-export default async function Home() {
-  const leaderboard = await getLeaderboard();
+export default function Home() {
+  const [leaderboard, setLeaderboard] = useState<
+    | {
+        id: string;
+        name: string | null;
+        score: number;
+      }[]
+    | null
+  >(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  async function refreshLeaderboard() {
+    setLoading(true);
+    const data = await getLeaderboard();
+    setLeaderboard(data);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    refreshLeaderboard();
+  }, []);
 
   return (
     <>
@@ -68,10 +91,15 @@ export default async function Home() {
 
         {leaderboard && (
           <section className="w-full mt-20" id="leaderboard">
-            <h4 className="text-5xl font-semibold text-left w-full mb-5 mt-20">
-              Leaderboard
-              <span className="text-primary"> #Top10</span>
-            </h4>
+            <div className="flex items-center justify-center container mb-5 mt-20">
+              <h4 className="text-5xl font-semibold text-left w-full">
+                Leaderboard
+                <span className="text-primary"> #Top10</span>
+              </h4>
+              <Button onClick={refreshLeaderboard}>
+                <RefreshCcw className={loading ? 'animate-spin' : ''} />
+              </Button>
+            </div>
 
             <div className="w-full sm:w-[90%] lg:w-2/3 rounded-lg mt-10 border min-h-[50vh]">
               <table className="table-auto w-full rounded-lg p-5 text-left">

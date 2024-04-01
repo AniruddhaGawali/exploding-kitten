@@ -41,6 +41,11 @@ export async function getLeaderboard() {
         score: 'desc',
       },
       take: 10,
+      select: {
+        id: true,
+        name: true,
+        score: true,
+      },
     });
 
     return users;
