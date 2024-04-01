@@ -44,6 +44,37 @@ function Page({}: Props) {
     setCards(random5Deck());
   }
 
+  function nextCard() {
+    if (currentCard <= 4 || Number.isNaN(currentCard)) {
+      if (Number.isNaN(currentCard)) {
+        if (cards[0].type === 'shuffle') {
+          restart();
+        } else {
+          setCurrentCard(0);
+          if (cards[0].type === 'cat') {
+            setCatCurrentCard(cards[0]);
+          }
+          if (cards[0].type === 'defuse') {
+            setDefuseCurrentCard(cards[0]);
+          }
+        }
+      } else {
+        if (cards[currentCard].type === 'shuffle') {
+          restart();
+        } else {
+          setCurrentCard(currentCard + 1);
+
+          if (cards[currentCard].type === 'cat') {
+            setCatCurrentCard(cards[currentCard]);
+          }
+          if (cards[currentCard].type === 'defuse') {
+            setDefuseCurrentCard(cards[currentCard]);
+          }
+        }
+      }
+    }
+  }
+
   useEffect(() => {
     const shuffled5Cards = random5Deck();
     setCards(shuffled5Cards);
@@ -65,7 +96,9 @@ function Page({}: Props) {
 
   return (
     <>
-      <h1 className="text-4xl text-center font-bold mt-10">Play Page</h1>
+      <h1 className="text-4xl text-center font-bold mt-10">
+        Please Don&apos;t Exploded Kittens
+      </h1>
 
       <div className="grid  grid-cols-1 md:grid-cols-3 justify-between items-center gap-10 min-h-screen w-full p-8">
         <div className="flex items-center justify-center md:items-start md:justify-normal">
@@ -86,43 +119,16 @@ function Page({}: Props) {
                 : 'You have reached the end of the deck'}
           </h2>
 
-          <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-5 lg:w-1/3 xl:w-2/3">
+          <section
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-5 lg:w-1/3 xl:w-2/3 cursor-pointer"
+            onClick={nextCard}>
             <GameCard card={null} />
             <GameCard card={cards[currentCard]} />
           </section>
           <Button
             className="w-2/3 m-auto"
             disabled={currentCard === 4 || score < 0}
-            onClick={() => {
-              if (currentCard <= 4 || Number.isNaN(currentCard)) {
-                if (Number.isNaN(currentCard)) {
-                  if (cards[0].type === 'shuffle') {
-                    restart();
-                  } else {
-                    setCurrentCard(0);
-                    if (cards[0].type === 'cat') {
-                      setCatCurrentCard(cards[0]);
-                    }
-                    if (cards[0].type === 'defuse') {
-                      setDefuseCurrentCard(cards[0]);
-                    }
-                  }
-                } else {
-                  if (cards[currentCard].type === 'shuffle') {
-                    restart();
-                  } else {
-                    setCurrentCard(currentCard + 1);
-
-                    if (cards[currentCard].type === 'cat') {
-                      setCatCurrentCard(cards[currentCard]);
-                    }
-                    if (cards[currentCard].type === 'defuse') {
-                      setDefuseCurrentCard(cards[currentCard]);
-                    }
-                  }
-                }
-              }
-            }}>
+            onClick={nextCard}>
             Next Card
           </Button>
         </div>

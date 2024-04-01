@@ -29,7 +29,7 @@ function GameOverOverlay({ restart, home }: Props) {
             Game Over
           </h1>
           <h3 className="md:text-4xl text-3xl font-medium text-center mt-5">
-            {isWin ? 'You Won' : `You Loss`}
+            {isWin ? 'You Won Meow-Meow' : `You Loss because you got bombed`}
           </h3>
         </div>
 
