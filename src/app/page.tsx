@@ -8,8 +8,10 @@ import Footer from '@/components/footer';
 import Image from 'next/image';
 import { RefreshCcw } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
+  const { data: session } = useSession();
   const [leaderboard, setLeaderboard] = useState<
     | {
         id: string;
@@ -53,6 +55,13 @@ export default function Home() {
               Leaderboard
             </Link>
           </Button>
+          {session && (
+            <Button asChild className="mt-5" size={'lg'} variant={'outline'}>
+              <Link href={'/profile/' + session.user.id} className="text-xl">
+                View Profile
+              </Link>
+            </Button>
+          )}
         </div>
 
         <section>
